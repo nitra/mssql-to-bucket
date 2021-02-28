@@ -9,4 +9,4 @@ mssql-scripter --schema-and-data  > ./$fullname
 
 gzip $fullname
 
-gsutil cp $fullname".gz" gs://b2b-db-backup
+gsutil cp $fullname".gz" gs://$BUCKET
