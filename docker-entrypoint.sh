@@ -1,4 +1,4 @@
-#!/bin/bash -euxo pipefail
+#!/bin/bash -eux
 
 # Backup remote DB
 mssql-scripter --schema-and-data  > ./$DB_FILE.sql
