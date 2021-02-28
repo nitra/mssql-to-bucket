@@ -1,9 +1,12 @@
 #!/bin/bash -eux
 
+# Filename with datetime
+fullname=$DB_FILE"-$(date +"%Y-%m-%d-%H-%M").sql"
+
 # Backup remote DB
-mssql-scripter --schema-and-data  > ./$DB_FILE.sql
+mssql-scripter --schema-and-data  > ./$fullname
 # TODO: check success backup
 
-gzip $DB_FILE.sql
+gzip $fullname
 
-gsutil cp $DB_FILE.sql.gz gs://b2b-db-backup
+gsutil cp $fullname".gz" gs://b2b-db-backup
