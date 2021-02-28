@@ -1,10 +1,15 @@
-FROM google/cloud-sdk:alpine
+# last image with Debian 9 (required for mssql-scripter)
+FROM google/cloud-sdk:264.0.0-slim
 
-# Install python/pip
-ENV PYTHONUNBUFFERED=1
-RUN apk add --update --no-cache python3 && ln -sf python3 /usr/bin/python
-RUN python3 -m ensurepip
-RUN pip3 install --no-cache --upgrade pip setuptools
+# update gsutil 
+# and libicu for mssql-scripter
+RUN apt-get update && \
+    apt-get install -y libicu-dev && \
+    apt-get --only-upgrade install -y google-cloud-sdk && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install mssql-scripter
-RUN pip install mssql-scripter
+RUN pip install --no-cache-dir mssql-scripter
+
+COPY docker-entrypoint.sh /
+
+CMD [ "./docker-entrypoint.sh" ]
